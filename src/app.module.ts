@@ -10,7 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 // envFilePath:'.env',
 // isGlobal:true,
 //     }),
-    MongooseModule.forRoot('mongodb://localhost:27017/MOOGO',
+    MongooseModule.forRoot('mongodb+srv://alfredaffia478:Alfred_0211.@crud1.etznzqn.mongodb.net/MONGO',
       // process.env.DB_URI
     ),
 

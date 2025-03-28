@@ -1,29 +1,19 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { ApiProperty } from "@nestjs/swagger";
 
-// export enum Category{
-// ADVENTURE ='Adventure',
-// CLASSICS ='Classics',
-// CRIME ='Crime',
-// FANATASY= 'Fantasy',
+@Schema(
+//     {
+//     timestamps:true
 // }
-
-@Schema({
-    timestamps:true
-})
+)
 export class Book{
+    @ApiProperty({example:"Headmaster",description:"The name of the book"})
     @Prop()
     title:string;
 
+    @ApiProperty({example:"MUST Read ",description:"The DESCRIPTION of the book"})
     @Prop()
 description:string;
-
-//     @Prop()
-//     author:string;
-
-//     @Prop()
-//     price:number;
-// @Prop()
-//     category:Category
 }
 
 export const BookSchema =SchemaFactory.createForClass(Book) 

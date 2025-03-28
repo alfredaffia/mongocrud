@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Book } from './schemas/book.schema';
 import { CreateBookDto } from './dto/create-book.dto';
+import { UpdateBookDto } from './dto/update-book.dto';
 
 @Injectable()
 export class BookService {
@@ -11,6 +12,12 @@ export class BookService {
         private bookModel: mongoose.Model<Book>
     ) { }
 
+    async create(book:CreateBookDto) //: Promise<Book>
+    {
+        const createBook = await this.bookModel.create(book);
+        return createBook;
+    }
+
 
     async findAll()//: Promise<Book[]> 
     {
@@ -18,42 +25,24 @@ export class BookService {
         return books
     }
 
-    async create(book: CreateBookDto) //: Promise<Book>
-    {
-        const createBook = await this.bookModel.create(book);
-        return createBook;
-    }
-
     async findOne(id: string) {
-        const find = await this.bookModel.findOne({ where: { id } });
-        if (!find) {
-
-            throw new NotFoundException('Book not found');
+        const user =await this.bookModel.findById(id).exec()
+        if(user) return user
+        return  new HttpException('book not found', 404) ;
+      }
+    
+      update(id: string, updateBookDto: UpdateBookDto) {
+        
+        const update = this.bookModel.findByIdAndUpdate(id, updateBookDto);
+        if(!update){
+throw new NotFoundException('Book not found')
         }
-        return find;
-    }
-
-    async updateById(id: string, book: Book) {
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            throw new NotFoundException(`Invalid ID format: ${id}`);
-        }
-
-        const updatedBook = await this.bookModel.findByIdAndUpdate(id, book, {
-            new: true,
-            runValidators: true,
-        });
-
-        if (!updatedBook) {
-            throw new NotFoundException(`Book with ID ${id} not found`);
-        }
-
-        return updatedBook;
-    }
+        return update;
+      }
 
 
 
-
-    async remove(id: string) {
+     async remove(id: string) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw new NotFoundException(`Invalid ID format: ${id}`);
         }
