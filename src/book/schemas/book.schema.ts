@@ -14,6 +14,11 @@ export class Book{
     @ApiProperty({example:"MUST Read ",description:"The DESCRIPTION of the book"})
     @Prop()
 description:string;
+
+@ApiProperty({example:false,description:"The status of the book"})
+@Prop({default: false}) 
+isBlocked: boolean;
+
 }
 
 export const BookSchema =SchemaFactory.createForClass(Book) 

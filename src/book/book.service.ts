@@ -12,7 +12,7 @@ export class BookService {
         private bookModel: mongoose.Model<Book>
     ) { }
 
-    async create(book:CreateBookDto) //: Promise<Book>
+    async create(book: CreateBookDto) //: Promise<Book>
     {
         const createBook = await this.bookModel.create(book);
         return createBook;
@@ -26,23 +26,23 @@ export class BookService {
     }
 
     async findOne(id: string) {
-        const user =await this.bookModel.findById(id).exec()
-        if(user) return user
-        return  new HttpException('book not found', 404) ;
-      }
-    
-      update(id: string, updateBookDto: UpdateBookDto) {
-        
+        const user = await this.bookModel.findById(id).exec()
+        if (user) return user
+        return new HttpException('book not found', 404);
+    }
+
+    update(id: string, updateBookDto: UpdateBookDto) {
+
         const update = this.bookModel.findByIdAndUpdate(id, updateBookDto);
-        if(!update){
-throw new NotFoundException('Book not found')
+        if (!update) {
+            throw new NotFoundException('Book not found')
         }
         return update;
-      }
+    }
 
 
 
-     async remove(id: string) {
+    async remove(id: string) {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             throw new NotFoundException(`Invalid ID format: ${id}`);
         }
